@@ -1,0 +1,136 @@
+extName: Hop
+extDescription: Une command palette rapide et intelligente pour passer d'un onglet, de l'historique, des favoris ou d'une commande à l'autre.
+commandOpenPalette: Ouvrir la command palette
+
+palette:
+  placeholder: Rechercher un onglet, une commande ou le web…
+  placeholderScoped:
+    commands: Rechercher une commande…
+    tabs: Rechercher un onglet ouvert…
+    bookmarks: Rechercher un favori…
+    history: Rechercher dans l'historique…
+  scopes:
+    commands: Commandes
+    tabs: Onglets
+    bookmarks: Favoris
+    history: Historique
+  sections:
+    go: Aller à
+    results: Résultats
+    web: Web
+    tabs: Onglets ouverts
+    suggested: Suggestions
+    recent: Historique
+    commands: Commandes
+    bookmarks: Favoris
+    history: Historique
+  actions:
+    switch: Basculer
+    open: Ouvrir
+    run: Exécuter
+    search: Rechercher
+    go: Aller
+  searchWith: Rechercher avec $1
+  searchDefault: Recherche web
+  empty: Aucun résultat
+  pinned: Épinglé
+  audible: Lecture audio
+  muted: Son coupé
+  copied: Copié dans le presse-papiers
+  hints:
+    navigate: naviguer
+    newTab: nouvel onglet
+    currentTab: onglet actuel
+    closeTab: fermer l'onglet
+    remove: retirer
+    filter: filtrer
+  justNow: À l'instant
+  keys:
+    shift: Maj
+    delete: Suppr
+
+newtab:
+  title: Nouvel onglet
+  hint: 'Appuyez sur $1 ou cliquez pour rechercher'
+
+commands:
+  newTab: Nouvel onglet
+  newWindow: Nouvelle fenêtre
+  newPrivateWindow: Nouvelle fenêtre privée
+  closeTab: Fermer l'onglet
+  duplicateTab: Dupliquer l'onglet
+  pinTab: Épingler l'onglet
+  unpinTab: Désépingler l'onglet
+  muteTab: Couper le son de l'onglet
+  unmuteTab: Réactiver le son de l'onglet
+  reloadTab: Recharger l'onglet
+  hardReloadTab: Recharger sans le cache
+  copyUrl: Copier l'URL de la page
+  moveToNewWindow: Déplacer l'onglet dans une nouvelle fenêtre
+  closeOtherTabs: Fermer les autres onglets
+  closeTabsToRight: Fermer les onglets à droite
+  reopenClosedTab: Rouvrir l'onglet fermé
+  discardOtherTabs: Libérer la mémoire (décharger les autres onglets)
+  openHistory: Ouvrir l'historique
+  openDownloads: Ouvrir les téléchargements
+  openBookmarks: Ouvrir le gestionnaire de favoris
+  openExtensions: Ouvrir les extensions
+  openBrowserSettings: Ouvrir les paramètres du navigateur
+  openHopSettings: Paramètres de Hop
+  editShortcut: Modifier le raccourci clavier de Hop
+
+options:
+  title: Paramètres de Hop
+  subtitle: Réglez votre command palette.
+  sections:
+    shortcut: Raccourci clavier
+    appearance: Apparence
+    search: Recherche
+    sources: Sources
+    privacy: Apprentissage
+  shortcut:
+    label: Ouvrir Hop
+    description: Fonctionne sur toutes les pages. Sur les pages protégées (pages du navigateur, stores), Hop s'ouvre dans une petite fenêtre.
+    notSet: Non défini
+    change: Modifier
+    chromeHint: Chrome gère les raccourcis des extensions sur sa propre page.
+    record: Enregistrer
+    recording: Appuyez sur le nouveau raccourci…
+    reset: Réinitialiser
+    invalid: 'Combinez Ctrl, Alt ou ⌘ avec une lettre, un chiffre ou une touche de fonction.'
+    error: 'Le navigateur a refusé ce raccourci : $1'
+  theme:
+    label: Thème
+    system: Système
+    light: Clair
+    dark: Sombre
+  blur:
+    label: Flouter la page
+    description: Floute la page derrière la palette. Désactivez-le sur les machines modestes.
+  openIn:
+    label: Ouvrir les pages dans
+    description: 'Ctrl/⌘ + Entrée ouvre dans l''autre, Maj + Entrée dans une nouvelle fenêtre.'
+    newTab: Un nouvel onglet
+    currentTab: L'onglet actuel
+  engine:
+    label: Moteur de recherche
+    browser: Moteur du navigateur
+    custom: Personnalisé…
+    customUrl: URL de recherche
+    customHint: 'Mettez %s à la place de la requête, ex. https://exemple.fr/?q=%s'
+  sources:
+    description: Ce dans quoi la palette cherche.
+    tabs: Onglets ouverts
+    history: Historique
+    bookmarks: Favoris
+    topSites: Sites les plus visités
+    commands: Commandes
+  learning:
+    label: Habitudes apprises
+    description: Hop apprend quels résultats vous choisissez selon ce que vous tapez, et à quel moment. Ces données ne quittent jamais votre navigateur.
+    clear: Oublier
+    cleared: Oublié
+  tips:
+    title: Astuces
+    scopes: 'Commencez par > pour les commandes, @ pour les onglets, * pour les favoris ou # pour l''historique.'
+    remove: 'Maj + Suppr ferme l''onglet sélectionné ou retire la page de l''historique.'

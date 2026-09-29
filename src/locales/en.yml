@@ -1,0 +1,136 @@
+extName: Hop
+extDescription: A fast, smart command palette to jump between tabs, history, bookmarks and commands.
+commandOpenPalette: Open the command palette
+
+palette:
+  placeholder: Search tabs, commands or the web…
+  placeholderScoped:
+    commands: Search commands…
+    tabs: Search open tabs…
+    bookmarks: Search bookmarks…
+    history: Search history…
+  scopes:
+    commands: Commands
+    tabs: Tabs
+    bookmarks: Bookmarks
+    history: History
+  sections:
+    go: Go to
+    results: Results
+    web: Web
+    tabs: Open tabs
+    suggested: Suggestions
+    recent: History
+    commands: Commands
+    bookmarks: Bookmarks
+    history: History
+  actions:
+    switch: Switch
+    open: Open
+    run: Run
+    search: Search
+    go: Go
+  searchWith: Search with $1
+  searchDefault: Web search
+  empty: No results
+  pinned: Pinned
+  audible: Playing audio
+  muted: Muted
+  copied: Copied to clipboard
+  hints:
+    navigate: navigate
+    newTab: new tab
+    currentTab: current tab
+    closeTab: close tab
+    remove: remove
+    filter: filter
+  justNow: Just now
+  keys:
+    shift: Shift
+    delete: Del
+
+newtab:
+  title: New tab
+  hint: 'Press $1 or click to search'
+
+commands:
+  newTab: New tab
+  newWindow: New window
+  newPrivateWindow: New private window
+  closeTab: Close tab
+  duplicateTab: Duplicate tab
+  pinTab: Pin tab
+  unpinTab: Unpin tab
+  muteTab: Mute tab
+  unmuteTab: Unmute tab
+  reloadTab: Reload tab
+  hardReloadTab: Hard reload (bypass cache)
+  copyUrl: Copy page URL
+  moveToNewWindow: Move tab to a new window
+  closeOtherTabs: Close other tabs
+  closeTabsToRight: Close tabs to the right
+  reopenClosedTab: Reopen closed tab
+  discardOtherTabs: Free memory (unload other tabs)
+  openHistory: Open history
+  openDownloads: Open downloads
+  openBookmarks: Open bookmarks manager
+  openExtensions: Open extensions
+  openBrowserSettings: Open browser settings
+  openHopSettings: Hop settings
+  editShortcut: Change Hop's keyboard shortcut
+
+options:
+  title: Hop settings
+  subtitle: Tune your command palette.
+  sections:
+    shortcut: Keyboard shortcut
+    appearance: Appearance
+    search: Search
+    sources: Sources
+    privacy: Learning
+  shortcut:
+    label: Open Hop
+    description: Works on every page. On restricted pages (browser pages, stores) Hop opens in a small window.
+    notSet: Not set
+    change: Change
+    chromeHint: Chrome manages extension shortcuts on its own page.
+    record: Record
+    recording: Press the new shortcut…
+    reset: Reset
+    invalid: 'Combine Ctrl, Alt or ⌘ with a letter, a digit or a function key.'
+    error: 'The browser refused this shortcut: $1'
+  theme:
+    label: Theme
+    system: System
+    light: Light
+    dark: Dark
+  blur:
+    label: Blur the page
+    description: Blurs the page behind the palette. Disable it on slower machines.
+  openIn:
+    label: Open pages in
+    description: 'Ctrl/⌘ + Enter opens in the other one, Shift + Enter in a new window.'
+    newTab: A new tab
+    currentTab: The current tab
+  engine:
+    label: Search engine
+    browser: Browser default
+    custom: Custom…
+    customUrl: Search URL
+    customHint: 'Use %s where the query goes, e.g. https://example.com/?q=%s'
+  sources:
+    description: What the palette searches through.
+    tabs: Open tabs
+    history: History
+    bookmarks: Bookmarks
+    topSites: Most visited sites
+    commands: Commands
+  learning:
+    label: Learned habits
+    description: Hop learns which results you pick for what you type, and when. This data never leaves your browser.
+    clear: Forget
+    cleared: Forgotten
+  tips:
+    title: Tips
+    scopes: 'Start with > for commands, @ for tabs, * for bookmarks or # for history.'
+    remove: 'Shift + Delete closes the selected tab or removes the page from history.'
