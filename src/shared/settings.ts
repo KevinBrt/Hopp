@@ -15,11 +15,14 @@ export interface Settings {
   /** Used when `searchEngine` is "custom". `%s` is replaced by the query. */
   customSearchUrl: string;
   sources: Record<SourceId, boolean>;
+  /** New tabs open the palette (opt-in). Otherwise Chrome shows its own new tab page. */
+  newTabPalette: boolean;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
   theme: 'system',
   blurBackdrop: true,
+  newTabPalette: false,
   openIn: 'new-tab',
   searchEngine: 'browser',
   customSearchUrl: '',

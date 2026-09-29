@@ -2,8 +2,8 @@
 
 A fast, smart command palette for Chrome and Firefox: switch to an open tab,
 reopen a page you visit often, search history, bookmarks and the web, or run a
-browser command. It pops up in the middle of the page, Arc-style, and replaces
-the new tab page so that Ctrl+T lands straight in the palette.
+browser command. It pops up in the middle of the page, Arc-style. Optionally
+(settings, off by default), new tabs open straight in the palette.
 
 Built with [WXT](https://wxt.dev), React, [cmdk](https://cmdk.paco.me) (shadcn/ui
 styling), Tailwind CSS v4 and [uFuzzy](https://github.com/leeoniya/uFuzzy).
@@ -64,8 +64,11 @@ Hop's own pages (new tab, options) host the overlay themselves. Other browser
 pages (`chrome://…`) and web stores refuse injection: the palette then opens as
 the toolbar popup, or as a small centered window.
 
-**New tab.** Browsers focus the address bar on new tab pages, so the page
-reloads itself once (`?focus`) to get the keyboard. Picking a result there
+**New tab.** A manifest override cannot be toggled, so Hop always owns the
+new tab page and reads the `newTabPalette` setting: off, it hands over to
+`chrome://new-tab-page` (Firefox forbids opening its own page, so a calm Hop
+page stays); on, it opens the palette. Browsers focus the address bar on new
+tab pages, so the page reloads itself once (`?focus`) to get the keyboard. Picking a result there
 navigates the same tab instead of opening another one.
 
 **Speed.** When the shortcut is pressed the background starts building the

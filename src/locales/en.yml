@@ -84,6 +84,7 @@ options:
   subtitle: Tune your command palette.
   sections:
     shortcut: Keyboard shortcut
+    newTab: New tab
     appearance: Appearance
     search: Search
     sources: Sources
@@ -99,6 +100,10 @@ options:
     reset: Reset
     invalid: 'Combine Ctrl, Alt or ⌘ with a letter, a digit or a function key.'
     error: 'The browser refused this shortcut: $1'
+  newTab:
+    label: Open the palette in new tabs
+    descriptionChrome: Otherwise, Chrome shows its usual new tab page.
+    descriptionFirefox: Otherwise, a calm page shows up and any key opens the palette.
   theme:
     label: Theme
     system: System

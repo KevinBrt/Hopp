@@ -167,7 +167,14 @@ try {
     'the overlay opens in extension pages',
   );
 
-  // Hop's new tab: the palette is open and focused right away.
+  // New tab, off by default: hands over to Chrome's own page.
+  const chromeNewTab = await context.newPage();
+  await chromeNewTab.goto(`chrome-extension://${extensionId}/newtab.html`);
+  await chromeNewTab.waitForURL(/^chrome:\/\/new-tab-page/, { timeout: 5_000 });
+  await chromeNewTab.close();
+
+  // Opted in: the palette is open and focused right away.
+  await worker.evaluate(() => chrome.storage.sync.set({ settings: { newTabPalette: true } }));
   const newTab = await context.newPage();
   await newTab.goto(`chrome-extension://${extensionId}/newtab.html`);
   await newTab.waitForURL(/\?focus$/);

@@ -1,5 +1,6 @@
 import { i18n } from '#i18n';
 import { useState, type ReactNode } from 'react';
+import { BROWSER } from '@/shared/env';
 import { callBackground } from '@/shared/messaging';
 import { SEARCH_ENGINE_IDS, SEARCH_ENGINES, type SearchEngineId } from '@/shared/search-engines';
 import { updateSettings, type OpenTarget, type Settings, type SourceId, type ThemePreference } from '@/shared/settings';
@@ -87,6 +88,21 @@ export function OptionsApp() {
               }
             >
               <ShortcutField />
+            </Row>
+          </Section>
+
+          <Section title={i18n.t('options.sections.newTab')}>
+            <Row
+              label={i18n.t('options.newTab.label')}
+              description={i18n.t(
+                BROWSER === 'chrome' ? 'options.newTab.descriptionChrome' : 'options.newTab.descriptionFirefox',
+              )}
+            >
+              <Switch
+                aria-label={i18n.t('options.newTab.label')}
+                checked={settings.newTabPalette}
+                onCheckedChange={(newTabPalette) => save({ newTabPalette })}
+              />
             </Row>
           </Section>
 

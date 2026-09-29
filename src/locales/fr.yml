@@ -84,6 +84,7 @@ options:
   subtitle: Réglez votre command palette.
   sections:
     shortcut: Raccourci clavier
+    newTab: Nouvel onglet
     appearance: Apparence
     search: Recherche
     sources: Sources
@@ -99,6 +100,10 @@ options:
     reset: Réinitialiser
     invalid: 'Combinez Ctrl, Alt ou ⌘ avec une lettre, un chiffre ou une touche de fonction.'
     error: 'Le navigateur a refusé ce raccourci : $1'
+  newTab:
+    label: Ouvrir la palette dans les nouveaux onglets
+    descriptionChrome: Sinon, Chrome affiche sa page Nouvel onglet habituelle.
+    descriptionFirefox: Sinon, une page sobre s'affiche et n'importe quelle touche ouvre la palette.
   theme:
     label: Thème
     system: Système
