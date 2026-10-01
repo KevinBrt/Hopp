@@ -14,7 +14,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "postinstall": "wxt prepare",
-    "test:e2e": "node e2e/smoke.mjs"
+    "test:e2e": "node e2e/smoke.mjs",
+    "store:assets": "node store/generate-assets.mjs"
   },
   "dependencies": {
     "@leeoniya/ufuzzy": "^1.0.19",
