@@ -211,7 +211,7 @@ export function Palette({ variant, onClose, domRoot }: PaletteProps) {
 
   return (
     <Command
-      label="Hop"
+      label="Hopp"
       shouldFilter={false}
       loop
       value={selectedId}

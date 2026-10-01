@@ -1,4 +1,4 @@
-extName: Hop
+extName: Hopp
 extDescription: A fast, smart command palette to jump between tabs, history, bookmarks and commands.
 commandOpenPalette: Open the command palette
 
@@ -81,11 +81,11 @@ commands:
   openBookmarks: Open bookmarks manager
   openExtensions: Open extensions
   openBrowserSettings: Open browser settings
-  openHopSettings: Hop settings
-  editShortcut: Change Hop's keyboard shortcut
+  openHopSettings: Hopp settings
+  editShortcut: Change Hopp's keyboard shortcut
 
 options:
-  title: Hop settings
+  title: Hopp settings
   subtitle: Tune your command palette.
   sections:
     shortcut: Keyboard shortcut
@@ -96,8 +96,8 @@ options:
     sources: Sources
     privacy: Learning
   shortcut:
-    label: Open Hop
-    description: Works on every page. On restricted pages (browser pages, stores) Hop opens in a small window.
+    label: Open Hopp
+    description: Works on every page. On restricted pages (browser pages, stores) Hopp opens in a small window.
     notSet: Not set
     change: Change
     chromeHint: Chrome manages extension shortcuts on its own page.
@@ -149,7 +149,7 @@ options:
     commands: Commands
   learning:
     label: Learned habits
-    description: Hop learns which results you pick for what you type, and when. This data never leaves your browser.
+    description: Hopp learns which results you pick for what you type, and when. This data never leaves your browser.
     clear: Forget
     cleared: Forgotten
   tips:

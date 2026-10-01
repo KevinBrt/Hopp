@@ -1,4 +1,4 @@
-# Hop
+# Hopp
 
 A fast, smart command palette for Chrome and Firefox: switch to an open tab,
 reopen a page you visit often, search history, bookmarks and the web, or run a
@@ -10,7 +10,7 @@ styling), Tailwind CSS v4 and [uFuzzy](https://github.com/leeoniya/uFuzzy).
 
 ## Usage
 
-- **Alt+K** opens the palette (change it in Hop's settings, or on
+- **Alt+K** opens the palette (change it in Hopp's settings, or on
   `chrome://extensions/shortcuts` in Chrome). Clicking the toolbar icon works too.
 - **↑↓** navigate, **Enter** open, **Ctrl/⌘+Enter** open in the other place
   (current tab ↔ new tab), **Shift+Enter** open in a new window.
@@ -64,14 +64,14 @@ src/
 
 **Opening.** The shortcut goes to the background, which asks the current page's
 overlay to toggle. The first time in a tab, the overlay script is injected on
-demand (`activeTab` + `scripting`), so pages that never use Hop pay nothing.
-Hop's own pages (new tab, options) host the overlay themselves. Other browser
+demand (`activeTab` + `scripting`), so pages that never use Hopp pay nothing.
+Hopp's own pages (new tab, options) host the overlay themselves. Other browser
 pages (`chrome://…`) and web stores refuse injection: the palette then opens as
 the toolbar popup, or as a small centered window.
 
-**New tab.** A manifest override cannot be toggled, so Hop always owns the
+**New tab.** A manifest override cannot be toggled, so Hopp always owns the
 new tab page and reads the `newTabPalette` setting: off, it hands over to
-`chrome://new-tab-page` (Firefox forbids opening its own page, so a calm Hop
+`chrome://new-tab-page` (Firefox forbids opening its own page, so a calm Hopp
 page stays); on, it opens the palette. Browsers focus the address bar on new
 tab pages, so the page reloads itself once (`?focus`) to get the keyboard. Picking a result there
 navigates the same tab instead of opening another one.
@@ -96,7 +96,7 @@ older than the 120 days kept in the corpus.
 - open tabs get a bonus (switching beats a duplicate); the current tab is
   demoted.
 
-With an empty query Hop suggests recently used tabs, then pages you use
+With an empty query Hopp suggests recently used tabs, then pages you use
 around this time, then recent history. Learning data stays in
 `storage.local` and can be erased from the settings.
 
