@@ -1,4 +1,6 @@
+import { browser } from 'wxt/browser';
 import { storage } from 'wxt/utils/storage';
+import { defaultSiteSearches, type SiteSearch } from '@/core/site-search';
 import type { SearchEngineId } from './search-engines';
 
 export type ThemePreference = 'system' | 'light' | 'dark';
@@ -17,6 +19,8 @@ export interface Settings {
   sources: Record<SourceId, boolean>;
   /** New tabs open the palette (opt-in). Otherwise Chrome shows its own new tab page. */
   newTabPalette: boolean;
+  /** "yt lofi" searches YouTube. Editable in the options. */
+  siteSearches: SiteSearch[];
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -27,6 +31,7 @@ export const DEFAULT_SETTINGS: Settings = {
   searchEngine: 'browser',
   customSearchUrl: '',
   sources: { tabs: true, history: true, bookmarks: true, topSites: true, commands: true },
+  siteSearches: defaultSiteSearches(browser.i18n.getUILanguage()),
 };
 
 const settingsItem = storage.defineItem<Partial<Settings>>('sync:settings', {

@@ -48,12 +48,29 @@ export function describeItem(item: PaletteItem, context: PaletteContext): ItemVi
           : i18n.t('palette.searchDefault'),
         action: 'search',
       };
+    case 'site-search':
+      if (item.query === null) {
+        return { title: i18n.t('palette.siteSearch.searchOn', [item.siteName]), action: 'search' };
+      }
+      if (item.query === '') return { title: item.siteName, subtitle: siteOf(item.url), action: 'open' };
+      return {
+        title: `“${item.query}”`,
+        subtitle: i18n.t('palette.siteSearch.searchOn', [item.siteName]),
+        action: 'search',
+      };
   }
 }
 
+/** A site search waiting for its query: picking it turns the keyword into a chip. */
+export const isPendingSiteSearch = (item: PaletteItem | undefined) =>
+  item?.kind === 'site-search' && item.query === null;
+
 /** Ctrl/⌘+Enter and Shift+Enter change where it opens. */
 export const supportsDisposition = (item: PaletteItem) =>
-  item.kind === 'page' || item.kind === 'navigate' || item.kind === 'search';
+  item.kind === 'page' ||
+  item.kind === 'navigate' ||
+  item.kind === 'search' ||
+  (item.kind === 'site-search' && item.query !== null);
 
 /** Shift+Delete closes the tab / removes the page from history. */
 export const canDismiss = (item: PaletteItem): item is TabItem | PageItem =>
@@ -71,6 +88,7 @@ export const actionLabel = (action: ActionKind): string =>
 export const sectionLabel = (section: SectionId): string =>
   ({
     go: () => i18n.t('palette.sections.go'),
+    site: () => i18n.t('palette.sections.site'),
     results: () => i18n.t('palette.sections.results'),
     web: () => i18n.t('palette.sections.web'),
     tabs: () => i18n.t('palette.sections.tabs'),

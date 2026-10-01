@@ -17,6 +17,10 @@ styling), Tailwind CSS v4 and [uFuzzy](https://github.com/leeoniya/uFuzzy).
 - **Shift+Delete** closes the selected tab, or removes the page from history.
 - Start with a prefix to filter: `>` commands, `@` tabs, `*` bookmarks, `#` history.
   Backspace on an empty input removes the filter.
+- Site search: `ytb lofi` + Enter searches YouTube directly; `yt` + Tab turns the
+  keyword into a chip. Defaults: YouTube (`yt`, `ytb`), Google (`g`), GitHub (`gh`),
+  Wikipedia (`wiki`), Google Maps (`maps`), Google Translate (`tr`). Add your own
+  in the settings (name, keywords, URL with `%s`).
 
 ## Development
 
@@ -45,6 +49,7 @@ src/
     usage.ts       Adaptive learning (picks per typed prefix, habits by time of day)
     signals.ts     Frecency and tab recency
     scopes.ts      `>`, `@`, `*`, `#` filters
+    site-search.ts "yt lofi" keywords, URL templates, default sites
   background/    Service worker
     sources/       One file per data source (tabs, history, bookmarks, top sites)
     commands/      Command registry

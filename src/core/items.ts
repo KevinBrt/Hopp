@@ -91,8 +91,19 @@ export interface WebSearchItem extends ItemBase {
   query: string;
 }
 
+/** Search on a given site ("yt lofi"), see `site-search.ts`. */
+export interface SiteSearchItem extends ItemBase {
+  kind: 'site-search';
+  siteId: string;
+  siteName: string;
+  /** null while waiting for a query, "" to open the home page. */
+  query: string | null;
+  /** What opens: the search results, or the home page. */
+  url: string;
+}
+
 export type CorpusItem = TabItem | PageItem | CommandItem;
-export type PaletteItem = CorpusItem | NavigateItem | WebSearchItem;
+export type PaletteItem = CorpusItem | NavigateItem | WebSearchItem | SiteSearchItem;
 export type UrlItem = TabItem | PageItem | NavigateItem;
 
 export function emptySignals(): PageSignals {

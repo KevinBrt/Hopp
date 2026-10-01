@@ -155,5 +155,7 @@ export const ItemIcon = memo(function ItemIcon({ item, context }: { item: Palett
           <Search className="size-3.5" strokeWidth={2.25} />
         </Tile>
       );
+    case 'site-search':
+      return <Favicon pageUrl={item.url} label={item.siteName} api={context.faviconApi} />;
   }
 });

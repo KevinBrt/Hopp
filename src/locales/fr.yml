@@ -16,6 +16,7 @@ palette:
     history: Historique
   sections:
     go: Aller à
+    site: Recherche sur un site
     results: Résultats
     web: Web
     tabs: Onglets ouverts
@@ -31,6 +32,9 @@ palette:
     search: Rechercher
     go: Aller
   searchWith: Rechercher avec $1
+  siteSearch:
+    searchOn: Rechercher sur $1
+    placeholder: Rechercher sur $1…
   searchDefault: Recherche web
   empty: Aucun résultat
   pinned: Épinglé
@@ -44,6 +48,7 @@ palette:
     closeTab: fermer l'onglet
     remove: retirer
     filter: filtrer
+    searchOnSite: chercher sur le site
   justNow: À l'instant
   keys:
     shift: Maj
@@ -87,6 +92,7 @@ options:
     newTab: Nouvel onglet
     appearance: Apparence
     search: Recherche
+    siteSearch: Recherche par site
     sources: Sources
     privacy: Apprentissage
   shortcut:
@@ -123,6 +129,17 @@ options:
     custom: Personnalisé…
     customUrl: URL de recherche
     customHint: 'Mettez %s à la place de la requête, ex. https://exemple.fr/?q=%s'
+  siteSearch:
+    description: 'Tapez un raccourci puis votre recherche, ex. « yt lofi », pour chercher directement sur le site. Tab transforme le raccourci en filtre.'
+    name: Nom
+    keywords: Raccourcis
+    keywordsPlaceholder: yt, ytb
+    url: 'URL (%s = la recherche)'
+    add: Ajouter un site
+    reset: Rétablir les sites par défaut
+    remove: Supprimer
+    invalidUrl: 'Doit commencer par http(s):// et contenir %s.'
+    duplicate: 'Raccourci déjà utilisé : $1'
   sources:
     description: Ce dans quoi la palette cherche.
     tabs: Onglets ouverts

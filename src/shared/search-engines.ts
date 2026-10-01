@@ -1,3 +1,5 @@
+import { fillTemplate, QUERY_PLACEHOLDER } from '@/core/site-search';
+
 /** Web search engines. "browser" delegates to the browser's default engine. */
 export const SEARCH_ENGINES = {
   browser: { name: null, url: null },
@@ -18,6 +20,6 @@ export const SEARCH_ENGINE_IDS = Object.keys(SEARCH_ENGINES) as SearchEngineId[]
 /** Builds the search URL, or null when the browser's own engine must be used. */
 export function buildSearchUrl(engine: SearchEngineId, customUrl: string, query: string): string | null {
   const template = engine === 'custom' ? customUrl : SEARCH_ENGINES[engine].url;
-  if (!template || !template.includes('%s')) return null;
-  return template.replace('%s', encodeURIComponent(query));
+  if (!template || !template.includes(QUERY_PLACEHOLDER)) return null;
+  return fillTemplate(template, query);
 }

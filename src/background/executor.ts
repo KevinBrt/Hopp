@@ -64,6 +64,11 @@ export async function execute({ item, disposition, query }: ExecuteRequest): Pro
     case 'search':
       await webSearch(item.query, resolveTarget(disposition, settings, ctx), ctx, settings);
       break;
+    case 'site-search':
+      // Templates come from user settings: only ever open web pages.
+      if (item.query === null || !/^https?:\/\//i.test(item.url)) throw new Error('Invalid site search');
+      await openUrl(item.url, resolveTarget(disposition, settings, ctx), ctx);
+      break;
     case 'command':
       result = await runCommand(item.commandId, { ...ctx, browser: BROWSER });
       break;

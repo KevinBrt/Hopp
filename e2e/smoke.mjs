@@ -140,6 +140,28 @@ try {
   const usage = await worker.evaluate(async () => (await chrome.storage.local.get('usage')).usage);
   assert.ok(usage.queries.rec, 'the pick is learned');
 
+  // Site search: "yt" + Tab shows the chip, "ytb lofi" + Enter searches YouTube.
+  await page.bringToFront();
+  await openPalette();
+  await page.keyboard.type('yt');
+  await page.keyboard.press('Tab');
+  await page.keyboard.type('lofi');
+  await page.waitForTimeout(300);
+  await page.screenshot({ path: path.join(SHOTS, `${theme}-site-chip.png`) });
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(400);
+  await openPalette();
+  await page.keyboard.type('ytb lofi');
+  await page.waitForTimeout(300);
+  await page.screenshot({ path: path.join(SHOTS, `${theme}-site-direct.png`) });
+  await page.keyboard.press('Enter');
+  await page.waitForTimeout(500);
+  const opened = await worker.evaluate(async () => (await chrome.tabs.query({})).map((tab) => tab.pendingUrl || tab.url));
+  assert.ok(
+    opened.includes('https://www.youtube.com/results?search_query=lofi'),
+    '"ytb lofi" + Enter searches YouTube',
+  );
+
   const standalone = await context.newPage();
   await standalone.setViewportSize({ width: 680, height: 500 });
   await standalone.goto(`chrome-extension://${extensionId}/palette.html?mode=window`);

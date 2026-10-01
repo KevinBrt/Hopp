@@ -12,6 +12,7 @@ import {
 } from 'react';
 import type { PaletteItem } from '@/core/items';
 import { parseScopePrefix, type ScopeId } from '@/core/scopes';
+import { parseSiteSearch, withSiteSearch, type SiteSearch } from '@/core/site-search';
 import { callBackground, type Disposition } from '@/shared/messaging';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandList } from '../components/command';
 import { Kbd } from '../components/kbd';
@@ -20,7 +21,7 @@ import { copyText } from '../lib/clipboard';
 import { cn } from '../lib/cn';
 import { isModKey } from '../lib/platform';
 import { Footer } from './footer';
-import { canDismiss, scopeLabel, scopePlaceholder, sectionLabel } from './item-view';
+import { canDismiss, isPendingSiteSearch, scopeLabel, scopePlaceholder, sectionLabel } from './item-view';
 import { ResultRow } from './result-row';
 import { useCorpus } from './use-corpus';
 import { useDeepHistory } from './use-deep-history';
@@ -45,14 +46,14 @@ function dispositionFor(event: { shiftKey: boolean; metaKey: boolean; ctrlKey: b
 const isDismissShortcut = (event: KeyboardEvent) =>
   event.shiftKey && (event.key === 'Delete' || (event.key === 'Backspace' && isModKey(event)));
 
-function ScopeChip({ scope, onClear }: { scope: ScopeId; onClear: () => void }) {
+function Chip({ label, onClear }: { label: string; onClear: () => void }) {
   return (
     <button
       type="button"
       onClick={onClear}
       className="group/chip flex h-6 shrink-0 items-center gap-1 rounded-md bg-primary/12 pr-1.5 pl-2 text-[12.5px] font-medium text-primary"
     >
-      {scopeLabel(scope)}
+      {label}
       <X className="size-3 opacity-60 group-hover/chip:opacity-100" strokeWidth={2.5} />
     </button>
   );
@@ -64,19 +65,25 @@ export function Palette({ variant, onClose, domRoot }: PaletteProps) {
 
   const [input, setInput] = useState('');
   const [scope, setScope] = useState<ScopeId | null>(null);
+  // Site search chip ("yt" + Tab): the whole input searches that site.
+  const [site, setSite] = useState<SiteSearch | null>(null);
   const [removed, setRemoved] = useState<ReadonlySet<string>>(() => new Set());
   const [notice, setNotice] = useState<string | null>(null);
 
   // Typing stays fluid even if ranking a huge history takes a few ms.
   const query = useDeferredValue(input);
-  const extraPages = useDeepHistory(query, settings.sources.history && (scope === null || scope === 'history'));
-  const sections = useResults(corpus, extraPages, removed, query, scope);
+  const extraPages = useDeepHistory(query, !site && settings.sources.history && (scope === null || scope === 'history'));
+  const ranked = useResults(corpus, extraPages, removed, site ? '' : query, scope);
+  const sections = useMemo(
+    () => (scope ? ranked : withSiteSearch(ranked, query, settings.siteSearches, site)),
+    [ranked, query, scope, site, settings.siteSearches],
+  );
   const flat = useMemo(() => sections.flatMap((section) => section.items.map(({ item }) => item)), [sections]);
 
   // Selection goes back to the top when the query changes, and is kept
   // otherwise (e.g. when deep history results arrive).
   const [selectedId, setSelectedId] = useState('');
-  const selectionKey = `${scope}\u0000${query}`;
+  const selectionKey = `${scope}\u0000${site?.id}\u0000${query}`;
   const lastSelectionKey = useRef(selectionKey);
   useLayoutEffect(() => {
     const queryChanged = lastSelectionKey.current !== selectionKey;
@@ -86,8 +93,8 @@ export function Palette({ variant, onClose, domRoot }: PaletteProps) {
   const selected = flat.find((item) => item.id === selectedId);
 
   // Latest values for stable callbacks (rows are memoized).
-  const latest = useRef({ input, flat });
-  latest.current = { input, flat };
+  const latest = useRef({ input, flat, sites: settings.siteSearches });
+  latest.current = { input, flat, sites: settings.siteSearches };
   const busy = useRef(false);
   const pointerDisposition = useRef<Disposition>('default');
 
@@ -129,12 +136,31 @@ export function Palette({ variant, onClose, domRoot }: PaletteProps) {
     }
   }, []);
 
+  const activateSite = useCallback((next: SiteSearch, rest = '') => {
+    setScope(null);
+    setSite(next);
+    setInput(rest);
+  }, []);
+
+  /** Runs the item, or enters the site chip for "yt" alone. */
+  const pick = useCallback(
+    (item: PaletteItem, disposition: Disposition) => {
+      if (isPendingSiteSearch(item) && item.kind === 'site-search') {
+        const target = latest.current.sites.find((candidate) => candidate.id === item.siteId);
+        if (target) activateSite(target);
+        return;
+      }
+      void execute(item, disposition);
+    },
+    [activateSite, execute],
+  );
+
   const onPick = useCallback(
     (item: PaletteItem) => {
-      void execute(item, pointerDisposition.current);
+      pick(item, pointerDisposition.current);
       pointerDisposition.current = 'default';
     },
-    [execute],
+    [pick],
   );
 
   const onPointerDown = useCallback((event: PointerEvent) => {
@@ -142,7 +168,7 @@ export function Palette({ variant, onClose, domRoot }: PaletteProps) {
   }, []);
 
   const onInputChange = (value: string) => {
-    const parsed = scope ? null : parseScopePrefix(value);
+    const parsed = scope || site ? null : parseScopePrefix(value);
     if (parsed) {
       setScope(parsed.scope);
       setInput(parsed.rest);
@@ -160,16 +186,20 @@ export function Palette({ variant, onClose, domRoot }: PaletteProps) {
         return;
       case 'Enter':
         event.preventDefault();
-        if (selected) void execute(selected, dispositionFor(event));
+        if (selected) pick(selected, dispositionFor(event));
         return;
-      case 'Tab':
-        // Keep the focus inside the palette.
+      case 'Tab': {
+        // Keeps the focus inside the palette, and turns "yt …" into the YouTube chip.
         event.preventDefault();
+        const match = scope || site ? null : parseSiteSearch(input, settings.siteSearches);
+        if (match) activateSite(match.site, match.query);
         return;
+      }
       case 'Backspace':
-        if (!input && scope && !event.shiftKey) {
+        if (!input && (scope || site) && !event.shiftKey) {
           event.preventDefault();
           setScope(null);
+          setSite(null);
           return;
         }
     }
@@ -191,12 +221,13 @@ export function Palette({ variant, onClose, domRoot }: PaletteProps) {
     >
       <div className="flex h-[54px] shrink-0 items-center gap-3 border-b px-4">
         <Search className="size-[18px] shrink-0 text-primary" strokeWidth={2.25} />
-        {scope && <ScopeChip scope={scope} onClear={() => setScope(null)} />}
+        {scope && <Chip label={scopeLabel(scope)} onClear={() => setScope(null)} />}
+        {site && <Chip label={site.name} onClear={() => setSite(null)} />}
         <CommandInput
           autoFocus
           value={input}
           onValueChange={onInputChange}
-          placeholder={scopePlaceholder(scope)}
+          placeholder={site ? i18n.t('palette.siteSearch.placeholder', [site.name]) : scopePlaceholder(scope)}
           spellCheck={false}
           autoComplete="off"
         />
@@ -230,7 +261,8 @@ export function Palette({ variant, onClose, domRoot }: PaletteProps) {
         selected={selected}
         context={corpus?.context}
         openIn={settings.openIn}
-        showScopes={!scope}
+        showScopes={!scope && !site}
+        siteTabHint={!scope && !site && !!parseSiteSearch(input, settings.siteSearches)}
         notice={notice}
       />
     </Command>

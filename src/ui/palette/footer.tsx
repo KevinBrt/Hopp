@@ -24,10 +24,12 @@ interface FooterProps {
   context: PaletteContext | undefined;
   openIn: OpenTarget;
   showScopes: boolean;
+  /** The input starts with a site keyword: Tab searches that site. */
+  siteTabHint: boolean;
   notice: string | null;
 }
 
-export function Footer({ selected, context, openIn, showScopes, notice }: FooterProps) {
+export function Footer({ selected, context, openIn, showScopes, siteTabHint, notice }: FooterProps) {
   return (
     <div className="flex h-10 shrink-0 items-center justify-between gap-4 border-t px-3 text-[11.5px] text-muted-foreground">
       <div className="flex min-w-0 items-center gap-1">
@@ -50,6 +52,7 @@ export function Footer({ selected, context, openIn, showScopes, notice }: Footer
         )}
       </div>
       <div className="flex shrink-0 items-center gap-3.5">
+        {siteTabHint && <Hint keys="Tab" label={i18n.t('palette.hints.searchOnSite')} />}
         <Hint keys="↑↓" label={i18n.t('palette.hints.navigate')} />
         {selected && context && (
           <Hint keys="↵" label={actionLabel(describeItem(selected, context).action).toLocaleLowerCase()} />

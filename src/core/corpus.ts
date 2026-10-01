@@ -59,6 +59,7 @@ export function usageKey(item: PaletteItem): string | null {
     case 'command':
       return `cmd:${item.commandId}`;
     case 'search':
+    case 'site-search':
       return null;
   }
 }

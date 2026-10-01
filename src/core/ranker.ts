@@ -17,6 +17,7 @@ import { displayUrl, normalizeUrl, parseNavigableInput } from './url';
 
 export type SectionId =
   | 'go'
+  | 'site'
   | 'results'
   | 'web'
   | 'tabs'

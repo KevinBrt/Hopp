@@ -16,6 +16,7 @@ palette:
     history: History
   sections:
     go: Go to
+    site: Site search
     results: Results
     web: Web
     tabs: Open tabs
@@ -31,6 +32,9 @@ palette:
     search: Search
     go: Go
   searchWith: Search with $1
+  siteSearch:
+    searchOn: Search on $1
+    placeholder: Search on $1…
   searchDefault: Web search
   empty: No results
   pinned: Pinned
@@ -44,6 +48,7 @@ palette:
     closeTab: close tab
     remove: remove
     filter: filter
+    searchOnSite: search on the site
   justNow: Just now
   keys:
     shift: Shift
@@ -87,6 +92,7 @@ options:
     newTab: New tab
     appearance: Appearance
     search: Search
+    siteSearch: Site search
     sources: Sources
     privacy: Learning
   shortcut:
@@ -123,6 +129,17 @@ options:
     custom: Custom…
     customUrl: Search URL
     customHint: 'Use %s where the query goes, e.g. https://example.com/?q=%s'
+  siteSearch:
+    description: 'Type a keyword then your search, e.g. "yt lofi", to search the site directly. Tab turns the keyword into a filter.'
+    name: Name
+    keywords: Keywords
+    keywordsPlaceholder: yt, ytb
+    url: 'URL (%s = the search)'
+    add: Add a site
+    reset: Restore defaults
+    remove: Remove
+    invalidUrl: 'Must start with http(s):// and contain %s.'
+    duplicate: 'Keyword already used: $1'
   sources:
     description: What the palette searches through.
     tabs: Open tabs

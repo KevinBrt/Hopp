@@ -5,11 +5,13 @@ import { callBackground } from '@/shared/messaging';
 import { SEARCH_ENGINE_IDS, SEARCH_ENGINES, type SearchEngineId } from '@/shared/search-engines';
 import { updateSettings, type OpenTarget, type Settings, type SourceId, type ThemePreference } from '@/shared/settings';
 import { Button } from '../components/button';
+import { Input } from '../components/input';
 import { Segmented } from '../components/segmented';
 import { Switch } from '../components/switch';
 import { ThemeRoot } from '../components/theme-root';
 import { useSettings } from '../hooks/use-settings';
 import { CAN_EDIT_SHORTCUT_INLINE, ShortcutField } from './shortcut-field';
+import { SiteSearchSection } from './site-search-section';
 
 const save = (patch: Partial<Settings>) => void updateSettings(patch);
 
@@ -156,15 +158,19 @@ export function OptionsApp() {
             </Row>
             {settings.searchEngine === 'custom' && (
               <Row label={i18n.t('options.engine.customUrl')} description={i18n.t('options.engine.customHint')}>
-                <input
+                <Input
                   type="url"
                   defaultValue={settings.customSearchUrl}
                   placeholder="https://example.com/?q=%s"
                   onBlur={(event) => save({ customSearchUrl: event.target.value.trim() })}
-                  className="h-8 w-64 rounded-lg border bg-muted px-2.5 text-[13px] text-foreground outline-none placeholder:text-subtle-foreground focus-visible:ring-2 focus-visible:ring-ring"
+                  className="w-64"
                 />
               </Row>
             )}
+          </Section>
+
+          <Section title={i18n.t('options.sections.siteSearch')} description={i18n.t('options.siteSearch.description')}>
+            <SiteSearchSection sites={settings.siteSearches} />
           </Section>
 
           <Section title={i18n.t('options.sections.sources')} description={i18n.t('options.sources.description')}>
