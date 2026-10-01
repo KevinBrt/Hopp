@@ -180,6 +180,24 @@ try {
     '"ytb lofi" + Enter searches YouTube',
   );
 
+  // Keys typed right after the shortcut, while the overlay is still being injected, are kept.
+  const fresh = tabs.docs;
+  await fresh.bringToFront();
+  const injecting = worker.evaluate(async () => {
+    const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
+    await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ['/content-scripts/overlay.js'] });
+  });
+  await fresh.waitForTimeout(10);
+  await fresh.keyboard.type('gith', { delay: 5 });
+  await injecting;
+  await fresh.waitForTimeout(300);
+  assert.equal(
+    await fresh.evaluate(() => document.querySelector('hop-palette').shadowRoot.querySelector('input').value),
+    'gith',
+    'keys typed during the opening reach the input',
+  );
+  await fresh.keyboard.press('Escape');
+
   const standalone = await context.newPage();
   await standalone.setViewportSize({ width: 680, height: 500 });
   await standalone.goto(`chrome-extension://${extensionId}/palette.html?mode=window`);

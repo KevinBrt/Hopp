@@ -91,7 +91,7 @@ export function isListableUrl(url: string | undefined): url is string {
 }
 
 const SCHEME_RE = /^[a-z][a-z\d+.-]*:\/\//i;
-// Unicode property escapes rather than a `¡-￿` range: minifiers
+// Unicode property escapes rather than a U+00A1-U+FFFF range: minifiers
 // inline the latter as a raw U+FFFF, which Chrome rejects in content scripts.
 const HOST_RE = /^(localhost|\d{1,3}(\.\d{1,3}){3}|([\p{L}\p{N}]([\p{L}\p{N}-]*[\p{L}\p{N}])?\.)+\p{L}{2,})(:\d{1,5})?$/iu;
 

@@ -26,6 +26,10 @@ export default defineContentScript({
       if (ui) ui.uiContainer.style.display = visible ? '' : 'none';
     };
     const controller = createOverlayController(setVisible);
+    // Opened (and recording keystrokes) right away, before the async setup
+    // below. Keys typed while the page parses this script are queued by the
+    // browser, so they reach the buffer too.
+    controller.open();
 
     // Registered first: a toggle may arrive while the UI is being created.
     browser.runtime.onMessage.addListener((message, _sender, sendResponse) => {
@@ -54,6 +58,5 @@ export default defineContentScript({
     });
     ui.mount();
     setVisible(controller.getSnapshot().phase !== 'closed');
-    controller.open();
   },
 });

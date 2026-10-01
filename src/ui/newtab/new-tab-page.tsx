@@ -20,7 +20,9 @@ export function NewTabPage({ controller }: { controller: OverlayController }) {
     if (phase !== 'closed') return;
     const onKeyDown = (event: KeyboardEvent) => {
       if (IGNORED_KEYS.has(event.key) || event.ctrlKey || event.metaKey || event.altKey) return;
-      controller.open();
+      // The key that reopens the palette is its first letter.
+      event.preventDefault();
+      controller.open(event.key.length === 1 ? event.key : '');
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
@@ -32,7 +34,7 @@ export function NewTabPage({ controller }: { controller: OverlayController }) {
   return (
     <ThemeRoot>
       <main
-        onClick={controller.open}
+        onClick={() => controller.open()}
         className="flex h-full cursor-default items-center justify-center bg-background font-sans text-[13px] text-muted-foreground antialiased select-none"
         style={{ backgroundImage: 'radial-gradient(ellipse at 50% 0%, var(--accent), transparent 60%)' }}
       >

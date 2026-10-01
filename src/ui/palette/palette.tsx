@@ -34,6 +34,8 @@ export interface PaletteProps {
   onClose: () => void;
   /** Where temporary DOM nodes go (the shadow root when in a page). */
   domRoot?: Node;
+  /** Keys typed before the input had the focus (see key-buffer.ts). */
+  takeTypedInput?: () => string;
 }
 
 const COPY_NOTICE_DURATION = 700;
@@ -60,7 +62,7 @@ function Chip({ label, onClear }: { label: string; onClear: () => void }) {
   );
 }
 
-export function Palette({ variant, onClose, domRoot }: PaletteProps) {
+export function Palette({ variant, onClose, domRoot, takeTypedInput }: PaletteProps) {
   const settings = useSettings();
   const corpus = useCorpus();
 
@@ -182,6 +184,17 @@ export function Palette({ variant, onClose, domRoot }: PaletteProps) {
     }
   };
 
+  // Focus the input explicitly (the autofocus attribute only works once per
+  // page, e.g. with Preact in the overlay), then replay what was typed during
+  // the opening and let the next keys flow to the input.
+  const inputRef = useRef<HTMLInputElement>(null);
+  useLayoutEffect(() => {
+    inputRef.current?.focus({ preventScroll: true });
+    const typed = takeTypedInput?.();
+    if (typed) onInputChange(typed);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- once, on mount
+  }, []);
+
   const onKeyDown = (event: KeyboardEvent) => {
     if (event.nativeEvent.isComposing) return;
     switch (event.key) {
@@ -229,6 +242,7 @@ export function Palette({ variant, onClose, domRoot }: PaletteProps) {
         {scope && <Chip label={scopeLabel(scope)} onClear={() => setScope(null)} />}
         {site && <Chip label={site.name} onClear={() => setSite(null)} />}
         <CommandInput
+          ref={inputRef}
           autoFocus
           value={input}
           onValueChange={onInputChange}

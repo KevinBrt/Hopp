@@ -34,6 +34,7 @@
     "@wxt-dev/module-react": "^1.2.2",
     "playwright": "^1.63.0",
     "postcss": "^8.5.28",
+    "preact": "^11.0.0",
     "tailwindcss": "^4.3.3",
     "typescript": "~5.9",
     "vitest": "^5.0.2",

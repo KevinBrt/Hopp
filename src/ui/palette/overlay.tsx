@@ -49,7 +49,13 @@ export function Overlay({ controller, domRoot }: OverlayProps) {
       <div className="hop-backdrop absolute inset-0" data-blur={settings.blurBackdrop} onMouseDown={controller.close} />
       <div className="pointer-events-none absolute inset-x-0 top-[14vh] flex justify-center px-4">
         <div className="hop-panel pointer-events-auto w-full max-w-[640px]" onAnimationEnd={onAnimationEnd}>
-          <Palette key={session} variant="overlay" onClose={controller.close} domRoot={domRoot} />
+          <Palette
+            key={session}
+            variant="overlay"
+            onClose={controller.close}
+            domRoot={domRoot}
+            takeTypedInput={controller.takeTypedInput}
+          />
         </div>
       </div>
     </div>

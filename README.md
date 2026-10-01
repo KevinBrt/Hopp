@@ -79,7 +79,10 @@ page stays); on, it opens the palette. Browsers focus the address bar on new
 tab pages, so the page reloads itself once (`?focus`) to get the keyboard. Picking a result there
 navigates the same tab instead of opening another one.
 
-**Speed.** When the shortcut is pressed the background starts building the
+**Speed.** The injected overlay renders with Preact (`preact/compat`, aliased
+in `wxt.config.ts` for that build only): ~185 KB instead of ~380 KB, about
+45 ms from injection to a focused input. Keys typed meanwhile are buffered
+(`ui/palette/key-buffer.ts`) and replayed into the input. When the shortcut is pressed the background starts building the
 corpus right away; the palette reuses that in-flight request, then ranks
 locally on every keystroke (no messaging round trip while typing). Typing uses
 `useDeferredValue`, the list height is animated by CSS, and rows are memoized.
