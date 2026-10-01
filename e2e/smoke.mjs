@@ -140,8 +140,26 @@ try {
   const usage = await worker.evaluate(async () => (await chrome.storage.local.get('usage')).usage);
   assert.ok(usage.queries.rec, 'the pick is learned');
 
-  // Site search: "yt" + Tab shows the chip, "ytb lofi" + Enter searches YouTube.
+  // Calculator: the result comes first, Enter copies it.
   await page.bringToFront();
+  await openPalette();
+  await page.keyboard.type('15% de 340 + 12*1.2');
+  await page.waitForTimeout(300);
+  await page.screenshot({ path: path.join(SHOTS, `${theme}-calculation.png`) });
+  const calculation = await shadow(
+    () => document.querySelector('hop-palette').shadowRoot.querySelector('[cmdk-item][data-selected="true"]')?.textContent,
+  );
+  assert.match(calculation, /= 65[.,]4/, 'the calculation result is the first result');
+  await page.keyboard.press('Enter');
+  await page.waitForTimeout(200);
+  assert.match(
+    await shadow(() => document.querySelector('hop-palette').shadowRoot.textContent),
+    /Copi/,
+    'Enter copies the result',
+  );
+  await page.waitForTimeout(900);
+
+  // Site search: "yt" + Tab shows the chip, "ytb lofi" + Enter searches YouTube.
   await openPalette();
   await page.keyboard.type('yt');
   await page.keyboard.press('Tab');

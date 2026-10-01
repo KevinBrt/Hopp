@@ -15,6 +15,7 @@ palette:
     bookmarks: Favoris
     history: Historique
   sections:
+    calculation: Calcul
     go: Aller à
     site: Recherche sur un site
     results: Résultats
@@ -31,6 +32,7 @@ palette:
     run: Exécuter
     search: Rechercher
     go: Aller
+    copy: Copier
   searchWith: Rechercher avec $1
   siteSearch:
     searchOn: Rechercher sur $1

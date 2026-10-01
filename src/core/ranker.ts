@@ -16,6 +16,7 @@ import { habitScore, learnedKeys, learnedScore, type UsageData } from './usage';
 import { displayUrl, normalizeUrl, parseNavigableInput } from './url';
 
 export type SectionId =
+  | 'calculation'
   | 'go'
   | 'site'
   | 'results'

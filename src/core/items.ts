@@ -102,8 +102,15 @@ export interface SiteSearchItem extends ItemBase {
   url: string;
 }
 
+/** Inline calculation ("12*1.2"), see `calculator.ts`. Picking it copies the result. */
+export interface CalculationItem extends ItemBase {
+  kind: 'calculation';
+  expression: string;
+  value: number;
+}
+
 export type CorpusItem = TabItem | PageItem | CommandItem;
-export type PaletteItem = CorpusItem | NavigateItem | WebSearchItem | SiteSearchItem;
+export type PaletteItem = CorpusItem | NavigateItem | WebSearchItem | SiteSearchItem | CalculationItem;
 export type UrlItem = TabItem | PageItem | NavigateItem;
 
 export function emptySignals(): PageSignals {

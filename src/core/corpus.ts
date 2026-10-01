@@ -60,6 +60,7 @@ export function usageKey(item: PaletteItem): string | null {
       return `cmd:${item.commandId}`;
     case 'search':
     case 'site-search':
+    case 'calculation':
       return null;
   }
 }

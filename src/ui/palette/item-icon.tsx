@@ -1,5 +1,6 @@
 import {
   AppWindow,
+  Calculator,
   ArrowUpRight,
   Bookmark,
   Clipboard,
@@ -153,6 +154,12 @@ export const ItemIcon = memo(function ItemIcon({ item, context }: { item: Palett
       return (
         <Tile className="text-primary">
           <Search className="size-3.5" strokeWidth={2.25} />
+        </Tile>
+      );
+    case 'calculation':
+      return (
+        <Tile className="text-primary">
+          <Calculator className="size-3.5" strokeWidth={2.25} />
         </Tile>
       );
     case 'site-search':

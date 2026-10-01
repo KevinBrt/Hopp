@@ -17,6 +17,8 @@ styling), Tailwind CSS v4 and [uFuzzy](https://github.com/leeoniya/uFuzzy).
 - **Shift+Delete** closes the selected tab, or removes the page from history.
 - Start with a prefix to filter: `>` commands, `@` tabs, `*` bookmarks, `#` history.
   Backspace on an empty input removes the filter.
+- Calculator: `12*1.2`, `15% de 340`, `340 + 15%`, `(2+3)^2`. The result comes
+  first; Enter copies it (in your locale's format, e.g. `14,4`).
 - Site search: `ytb lofi` + Enter searches YouTube directly; `yt` + Tab turns the
   keyword into a chip. Defaults: YouTube (`yt`, `ytb`), Google (`g`), GitHub (`gh`),
   Wikipedia (`wiki`), Google Maps (`maps`), Google Translate (`tr`). Add your own
@@ -50,6 +52,7 @@ src/
     signals.ts     Frecency and tab recency
     scopes.ts      `>`, `@`, `*`, `#` filters
     site-search.ts "yt lofi" keywords, URL templates, default sites
+    calculator.ts  Inline calculations (safe parser, no eval)
   background/    Service worker
     sources/       One file per data source (tabs, history, bookmarks, top sites)
     commands/      Command registry

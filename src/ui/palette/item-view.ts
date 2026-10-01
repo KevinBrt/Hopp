@@ -4,14 +4,16 @@ import type { PaletteContext } from '@/core/corpus';
 import type { PageItem, PaletteItem, TabItem } from '@/core/items';
 import type { SectionId } from '@/core/ranker';
 import type { ScopeId } from '@/core/scopes';
+import { formatResult } from '@/core/calculator';
 import { hostname } from '@/core/url';
+import { browser } from 'wxt/browser';
 
 /** Where an item lives. Empty for extension pages: their host is an unreadable id. */
 const siteOf = (url: string) => (/^(chrome|moz)-extension:/.test(url) ? '' : hostname(url));
 
 const joinSubtitle = (...parts: (string | undefined)[]) => parts.filter(Boolean).join(' · ') || undefined;
 
-export type ActionKind = 'switch' | 'open' | 'run' | 'search' | 'go';
+export type ActionKind = 'switch' | 'open' | 'run' | 'search' | 'go' | 'copy';
 
 export interface ItemView {
   title: string;
@@ -48,6 +50,12 @@ export function describeItem(item: PaletteItem, context: PaletteContext): ItemVi
           : i18n.t('palette.searchDefault'),
         action: 'search',
       };
+    case 'calculation':
+      return {
+        title: `= ${formatResult(item.value, browser.i18n.getUILanguage())}`,
+        subtitle: item.expression,
+        action: 'copy',
+      };
     case 'site-search':
       if (item.query === null) {
         return { title: i18n.t('palette.siteSearch.searchOn', [item.siteName]), action: 'search' };
@@ -83,10 +91,12 @@ export const actionLabel = (action: ActionKind): string =>
     run: () => i18n.t('palette.actions.run'),
     search: () => i18n.t('palette.actions.search'),
     go: () => i18n.t('palette.actions.go'),
+    copy: () => i18n.t('palette.actions.copy'),
   })[action]();
 
 export const sectionLabel = (section: SectionId): string =>
   ({
+    calculation: () => i18n.t('palette.sections.calculation'),
     go: () => i18n.t('palette.sections.go'),
     site: () => i18n.t('palette.sections.site'),
     results: () => i18n.t('palette.sections.results'),

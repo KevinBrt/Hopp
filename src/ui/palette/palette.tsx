@@ -11,6 +11,7 @@ import {
   type PointerEvent,
 } from 'react';
 import type { PaletteItem } from '@/core/items';
+import { withCalculation } from '@/core/calculator';
 import { parseScopePrefix, type ScopeId } from '@/core/scopes';
 import { parseSiteSearch, withSiteSearch, type SiteSearch } from '@/core/site-search';
 import { callBackground, type Disposition } from '@/shared/messaging';
@@ -75,7 +76,11 @@ export function Palette({ variant, onClose, domRoot }: PaletteProps) {
   const extraPages = useDeepHistory(query, !site && settings.sources.history && (scope === null || scope === 'history'));
   const ranked = useResults(corpus, extraPages, removed, site ? '' : query, scope);
   const sections = useMemo(
-    () => (scope ? ranked : withSiteSearch(ranked, query, settings.siteSearches, site)),
+    () => {
+      if (scope) return ranked;
+      const withSite = withSiteSearch(ranked, query, settings.siteSearches, site);
+      return site ? withSite : withCalculation(withSite, query);
+    },
     [ranked, query, scope, site, settings.siteSearches],
   );
   const flat = useMemo(() => sections.flatMap((section) => section.items.map(({ item }) => item)), [sections]);

@@ -1,5 +1,6 @@
 /** Performs what the user picked in the palette. */
 import { browser } from 'wxt/browser';
+import { formatResult } from '@/core/calculator';
 import { usageKey } from '@/core/corpus';
 import type { PageItem, TabItem } from '@/core/items';
 import { BROWSER } from '@/shared/env';
@@ -68,6 +69,10 @@ export async function execute({ item, disposition, query }: ExecuteRequest): Pro
       // Templates come from user settings: only ever open web pages.
       if (item.query === null || !/^https?:\/\//i.test(item.url)) throw new Error('Invalid site search');
       await openUrl(item.url, resolveTarget(disposition, settings, ctx), ctx);
+      break;
+    case 'calculation':
+      // Copied without grouping, so it pastes cleanly into a spreadsheet.
+      result = { copy: formatResult(item.value, browser.i18n.getUILanguage(), false) };
       break;
     case 'command':
       result = await runCommand(item.commandId, { ...ctx, browser: BROWSER });
